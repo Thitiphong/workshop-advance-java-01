@@ -7,6 +7,25 @@ public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
 
+
+    @Test
+    public void create_buffer_with_specified_size_3_write_A_B_C_D_then_read_should_be_D_B_C() {
+        circularBuffer.create(3);
+        circularBuffer.write("A");
+        circularBuffer.write("B");
+        circularBuffer.write("C");
+        circularBuffer.write("D");
+//        try {
+        assertEquals("D",circularBuffer.read());
+        assertEquals("B",circularBuffer.read());
+        assertEquals("C",circularBuffer.read());
+
+//        } catch (Exception ex) {
+
+//        }
+//        assertTrue(circularBuffer.isEmpty());
+    }
+
     @Test
     public void write_A_B_and_read_A_B_then_buffer_is_empty() {
         circularBuffer.create();
