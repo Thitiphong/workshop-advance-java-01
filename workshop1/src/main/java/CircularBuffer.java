@@ -6,8 +6,8 @@ import java.util.List;
 
 public class CircularBuffer {
     private String[] data;
-    private int writePointer;
-    private int readPointer;
+    private int writePointer = 0;
+    private int readPointer = 0;
     private int maxSize;
     private static final int DEFAULT_SIZE = 10;
 
