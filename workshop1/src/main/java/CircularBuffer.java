@@ -44,12 +44,13 @@ public class CircularBuffer {
         return getSize() == maxSize;
     }
 
-    public String read() {
+    public String read() throws  EmptyBufferException{
         // TODO
         return null;
     }
 
-    public void write(String input) {
+    public void write(String input) throws FullBufferException {
+
         // TODO
     }
 }
