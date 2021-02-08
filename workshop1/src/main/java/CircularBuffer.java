@@ -21,7 +21,7 @@ public class CircularBuffer {
     }
 
     public void create(){
-        data = new String[10];
+        create(DEFAULT_SIZE);
     }
 
 

@@ -5,10 +5,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CircularBufferTest {
 
+    CircularBuffer circularBuffer = new CircularBuffer();
+
     @Test
     @DisplayName("ขนาด defautl ของ CircularBuffer ต้องมีขนาดเท่ากับ 10")
-    public void create_buffer_with_default_size(){
-        CircularBuffer circularBuffer = new CircularBuffer();
+    public void create_buffer_with_default_size() {
         circularBuffer.create();
         int size = circularBuffer.getSize();
 
@@ -18,8 +19,7 @@ class CircularBufferTest {
 
     @Test
     @DisplayName("ขนาด defautl ของ CircularBuffer ต้องมีขนาดเท่ากับ 5")
-    public void create_buffer_with_specific_size_5(){
-        CircularBuffer circularBuffer = new CircularBuffer();
+    public void create_buffer_with_specific_size_5() {
         circularBuffer.create(5);
         int size = circularBuffer.getSize();
 
