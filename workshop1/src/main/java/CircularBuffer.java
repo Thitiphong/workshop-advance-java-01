@@ -11,26 +11,31 @@ public class CircularBuffer {
     private int maxSize;
     private static final int DEFAULT_SIZE = 10;
 
-
+    public CircularBuffer(){}
 
     public static void main(String[] args) {
-        CircularBuffer circularBuffer = new CircularBuffer(10);
+        CircularBuffer circularBuffer = new CircularBuffer();
+        circularBuffer.create();
         int size = circularBuffer.getSize();
         System.out.println(size);
+    }
 
+    public void create(){
+        data = new String[10];
     }
 
 
-    public CircularBuffer(){
-        new CircularBuffer(DEFAULT_SIZE);
+    public void create(int i) {
+        data = new String[i];
     }
+
 
     public CircularBuffer(int size){
         this.maxSize = size;
         this.data = new String[size];
     }
 
-    private int getSize() {
+    public int getSize() {
         return data.length;
     }
 
@@ -58,4 +63,5 @@ public class CircularBuffer {
 
         // TODO
     }
+
 }
