@@ -1,12 +1,7 @@
-
-
-import java.util.ArrayList;
-import java.util.List;
-
-
 public class CircularBuffer {
-    private String[] data;
+    private String[] buffers;
     private int writePointer = 0;
+    private boolean flag = false;
     private int readPointer = 0;
     private int maxSize;
     private static final int DEFAULT_SIZE = 10;
@@ -26,26 +21,33 @@ public class CircularBuffer {
 
 
     public void create(int i) {
-        data = new String[i];
+        buffers = new String[i];
+        flag = true;
     }
 
 
     public CircularBuffer(int size){
         this.maxSize = size;
-        this.data = new String[size];
+        this.buffers = new String[size];
     }
 
     public int getSize() {
-        return data.length;
+        return buffers.length;
     }
 
-    private boolean isEmpty() {
-        for ( String d: data) {
-            if (d != null) {
-                return false;
-            }
-        }
-        return true;
+    public boolean isEmpty() {
+
+        // Big O = n
+//        for ( String d: buffers) {
+//            if (d != null) {
+//                return false;
+//            }
+//        }
+
+
+        return flag;
+
+
     }
 
     private boolean isFull() {
@@ -56,7 +58,7 @@ public class CircularBuffer {
         if (isEmpty()){
             throw new EmptyBufferException();
         }
-        return data[readPointer++];
+        return buffers[readPointer++];
     }
 
     public void write(String input) throws FullBufferException {
