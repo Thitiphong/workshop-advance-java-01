@@ -1,34 +1,21 @@
 public class CircularBuffer {
+    public static final int DEFAULT_SIZE = 10;
+    // Variables
     private String[] buffers;
-    private int writePointer = 0;
-    private boolean flag = false;
-    private int readPointer = 0;
-    private int maxSize;
-    private static final int DEFAULT_SIZE = 10;
+    private int writePointer;
+    private int readPointer;
 
-    public CircularBuffer(){}
+    // Constructor
+    public CircularBuffer() {}
 
-    public static void main(String[] args) {
-        CircularBuffer circularBuffer = new CircularBuffer();
-        circularBuffer.create();
-        int size = circularBuffer.getSize();
-        System.out.println(size);
-    }
-
-    public void create(){
+    // Methods
+    // Public
+    public void create() {
         create(DEFAULT_SIZE);
     }
 
-
-    public void create(int i) {
-        buffers = new String[i];
-        flag = true;
-    }
-
-
-    public CircularBuffer(int size){
-        this.maxSize = size;
-        this.buffers = new String[size];
+    public void create(int size) {
+        buffers = new String[size];
     }
 
     public int getSize() {
@@ -36,34 +23,16 @@ public class CircularBuffer {
     }
 
     public boolean isEmpty() {
-
-        // Big O = n
-//        for ( String d: buffers) {
-//            if (d != null) {
-//                return false;
-//            }
-//        }
-
-
-        return flag;
-
-
+        return writePointer - readPointer == 0;
     }
 
-    private boolean isFull() {
-        return getSize() == maxSize;
+    public void write(String input) {
+        buffers[writePointer++] = input;
     }
 
-    public String read() throws  EmptyBufferException{
-        if (isEmpty()){
-            throw new EmptyBufferException();
-        }
+    public String read() {
         return buffers[readPointer++];
     }
 
-    public void write(String input) throws FullBufferException {
-
-        // TODO
-    }
-
+    // Private
 }
