@@ -7,40 +7,39 @@ public class CircularBufferTest {
 
     CircularBuffer circularBuffer = new CircularBuffer();
 
-
     @Test
-    public void create_buffer_with_specified_size_3_write_A_B_C_D_then_read_should_be_D_B_C() {
-        circularBuffer.create(3);
-        circularBuffer.write("A");
-        circularBuffer.write("B");
-        circularBuffer.write("C");
-        circularBuffer.write("D");
-//        try {
-        assertEquals("D",circularBuffer.read());
-        assertEquals("B",circularBuffer.read());
-        assertEquals("C",circularBuffer.read());
-
-//        } catch (Exception ex) {
-
-//        }
-//        assertTrue(circularBuffer.isEmpty());
+    public void read_data_from_empty_buffer_then_throw_exception() {
+        circularBuffer.create();
+        writeDataToBuffer("A", "B");
+        // JUnit 5
+        Exception exception = assertThrows(EmptyBufferException.class, () -> {
+            circularBuffer.read();
+            circularBuffer.read();
+            circularBuffer.read();
+        });
+        assertNotNull(exception);
+        assertEquals("Buffer is empty", exception.getMessage());
     }
 
     @Test
     public void write_A_B_and_read_A_B_then_buffer_is_empty() {
         circularBuffer.create();
-        circularBuffer.write("A");
-        circularBuffer.write("B");
+        writeDataToBuffer("A", "B");
         circularBuffer.read();
         circularBuffer.read();
         assertTrue(circularBuffer.isEmpty());
     }
 
+    private void writeDataToBuffer(String... inputs) {
+        for (String input : inputs) {
+            circularBuffer.write(input);
+        }
+    }
+
     @Test
     public void write_A_B_should_read_A_B() {
         circularBuffer.create();
-        circularBuffer.write("A");
-        circularBuffer.write("B");
+        writeDataToBuffer("A", "B");
         assertEquals("A", circularBuffer.read());
         assertEquals("B", circularBuffer.read());
     }
@@ -48,7 +47,7 @@ public class CircularBufferTest {
     @Test
     public void write_A_should_read_A() {
         circularBuffer.create();
-        circularBuffer.write("A");
+        writeDataToBuffer("A");
         String result = circularBuffer.read();
         assertEquals("A", result);
     }
@@ -57,7 +56,7 @@ public class CircularBufferTest {
     @DisplayName("หลังจากสร้าง buffer แล้วเพิ่มข้อมูลเข้าไป ผลที่ได้ buffer ต้องไม่ว่าง")
     public void after_created_and_write_data_should_be_not_empty() {
         circularBuffer.create();
-        circularBuffer.write("A");
+        writeDataToBuffer("A");
         boolean status = circularBuffer.isEmpty();
         assertFalse(status);
     }

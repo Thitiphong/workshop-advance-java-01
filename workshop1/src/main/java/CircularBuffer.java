@@ -23,31 +23,18 @@ public class CircularBuffer {
     }
 
     public boolean isEmpty() {
-        System.out.println("writePointer " + writePointer);
-        System.out.println("readPointer " + readPointer);
         return writePointer - readPointer == 0;
     }
 
     public void write(String input) {
-        if (writePointer < getSize()) {
-            buffers[writePointer++] = input;
-        }
-        if (writePointer == getSize()){
-            writePointer = 0;
-        }
+        buffers[writePointer++] = input;
     }
 
     public String read() {
-        String result;
-        if (readPointer < getSize()) {
-            result =  buffers[readPointer++];
-        } else {
-            throw new RuntimeException("unexpected");
+        if(isEmpty()) {
+            throw new EmptyBufferException();
         }
-        if (readPointer == getSize()){
-            readPointer = 0;
-        }
-        return result;
+        return buffers[readPointer++];
     }
 
     // Private
