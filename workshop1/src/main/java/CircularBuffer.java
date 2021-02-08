@@ -14,6 +14,9 @@ public class CircularBuffer {
 
 
     public static void main(String[] args) {
+        CircularBuffer circularBuffer = new CircularBuffer(10);
+        int size = circularBuffer.getSize();
+        System.out.println(size);
 
     }
 
@@ -45,8 +48,10 @@ public class CircularBuffer {
     }
 
     public String read() throws  EmptyBufferException{
-        // TODO
-        return null;
+        if (isEmpty()){
+            throw new EmptyBufferException();
+        }
+        return data[readPointer++];
     }
 
     public void write(String input) throws FullBufferException {
