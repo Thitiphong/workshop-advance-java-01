@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class CircularBuffer {
-    private List<String> data;
+    private String[] data;
     private int writePointer;
     private int readPointer;
     private int maxSize;
@@ -17,20 +17,39 @@ public class CircularBuffer {
 
     }
 
+
     public CircularBuffer(){
-        this.maxSize = DEFAULT_SIZE;
-        this.data = new ArrayList<>(DEFAULT_SIZE);
+        new CircularBuffer(DEFAULT_SIZE);
+    }
+
+    public CircularBuffer(int size){
+        this.maxSize = size;
+        this.data = new String[size];
     }
 
     private int getSize() {
-        return data.size();
+        return data.length;
     }
 
     private boolean isEmpty() {
-        return data.isEmpty();
+        for ( String d: data) {
+            if (d != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean isFull() {
         return getSize() == maxSize;
+    }
+
+    public String read() {
+        // TODO
+        return null;
+    }
+
+    public void write(String input) {
+        // TODO
     }
 }
