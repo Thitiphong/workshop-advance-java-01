@@ -12,7 +12,6 @@ public class RegisterBusiness {
         if (speaker.getFirstName() != null && !speaker.getFirstName().trim().equals("")) {
             if (speaker.getLastName() != null && !speaker.getLastName().trim().equals("")) {
                 if (speaker.getEmail() != null && !speaker.getEmail().trim().equals("")) {
-                    // TODO :: test ArrayIndexOutOfBound
                     String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
                     if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
                         int exp = speaker.getExp();
