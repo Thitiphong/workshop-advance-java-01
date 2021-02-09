@@ -29,29 +29,51 @@ public class Buyer {
 class Checkout {
     public void process(Basket basket) {
         int netPrice = PriceCalculator.get(basket);
-        int maxDiscount = DiscountCalculator.get(basket);
+        int maxDiscount = DiscountCalculator.get(basket, netPrice);
         int totalPrice = netPrice - maxDiscount;
         // TODO
+        basket.setNetPrice(netPrice);
+        basket.setDiscountPrice(maxDiscount);
     }
 }
 
 class PriceCalculator {
 
     public static int get(Basket basket) {
+        int netPrice = 0;
+        for (Book book : basket.books) {
+            netPrice += (book.getPrice()*100);
+        }
         // Logic
-        return 0;
+        return netPrice;
     }
 }
 
 class DiscountCalculator {
 
-    public static int get(Basket basket) {
+    public static int get(Basket basket, int netPrice) {
         // Logic
-        return 0;
+        int discount = 0;
+        List<Book> books = basket.getBooks();
+        if (books.size() ==2) {
+            discount = netPrice - (netPrice * 5/100);
+        }
+        if (books.size() ==3) {
+            discount = netPrice - (netPrice * 10/100);
+        }
+        return discount;
     }
 }
 
 class Basket {
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
     List<Book> books = new ArrayList<>();
     private int netPrice;
     private int discountPrice;
