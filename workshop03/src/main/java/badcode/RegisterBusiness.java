@@ -9,30 +9,28 @@ public class RegisterBusiness {
         Integer speakerId;
         String[] domains = {"gmail.com", "live.com"};
 
-        if (isNotEmpty(speaker.getFirstName())) {
-            if (isNotEmpty(speaker.getLastName())) {
-                if (isNotEmpty(speaker.getEmail())) {
-                    String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
-                    if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
-                        int exp = speaker.getExp();
-                        speaker.setRegistrationFee(getRegistrationFee(exp));
-                        try {
-                            speakerId = repository.saveSpeaker(speaker);
-                        } catch (Exception exception) {
-                            throw new SaveSpeakerException("Can't save a speaker.");
-                        }
-                    } else {
-                        throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
-                    }
-                } else {
-                    throw new ArgumentNullException("Email is required.");
-                }
-            } else {
-                throw new ArgumentNullException("Last name is required.");
-            }
-        } else {
+        if (!isNotEmpty(speaker.getFirstName())) {
             throw new ArgumentNullException("First name is required.");
         }
+        if (!isNotEmpty(speaker.getLastName())) {
+            throw new ArgumentNullException("Last name is required.");
+        }
+        if (!isNotEmpty(speaker.getEmail())) {
+            throw new ArgumentNullException("Email is required.");
+        }
+        String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
+        if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
+            int exp = speaker.getExp();
+            speaker.setRegistrationFee(getRegistrationFee(exp));
+            try {
+                speakerId = repository.saveSpeaker(speaker);
+            } catch (Exception exception) {
+                throw new SaveSpeakerException("Can't save a speaker.");
+            }
+        } else {
+            throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
+        }
+
 
         return speakerId;
     }
