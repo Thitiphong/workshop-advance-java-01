@@ -13,23 +13,13 @@ public class RegisterBusiness {
             if (speaker.getLastName() != null && !speaker.getLastName().trim().equals("")) {
                 if (speaker.getEmail() != null && !speaker.getEmail().trim().equals("")) {
                     // TODO :: test ArrayIndexOutOfBound
-                    String emailDomain = speaker.getEmail().split("@")[1]; // ArrayIndexOutOfBound
+                    String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
                     if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
                         int exp = speaker.getExp();
-                        if (exp <= 1) {
-                            speaker.setRegistrationFee(500);
-                        } else if (exp >= 2 && exp <= 3) {
-                            speaker.setRegistrationFee(250);
-                        } else if (exp >= 4 && exp <= 5) {
-                            speaker.setRegistrationFee(100);
-                        } else if (exp >= 6 && exp <= 9) {
-                            speaker.setRegistrationFee(50);
-                        } else {
-                            speaker.setRegistrationFee(0);
-                        }
+                        speaker.setRegistrationFee(getRegistrationFee(exp));
                         try {
                             speakerId = repository.saveSpeaker(speaker);
-                        }catch (Exception exception) {
+                        } catch (Exception exception) {
                             throw new SaveSpeakerException("Can't save a speaker.");
                         }
                     } else {
@@ -38,7 +28,7 @@ public class RegisterBusiness {
                 } else {
                     throw new ArgumentNullException("Email is required.");
                 }
-            }else {
+            } else {
                 throw new ArgumentNullException("Last name is required.");
             }
         } else {
@@ -46,6 +36,28 @@ public class RegisterBusiness {
         }
 
         return speakerId;
+    }
+
+     int getRegistrationFee(int exp) {
+        int fee = 0;
+        if (exp <= 1) {
+            fee = 500;
+        } else if (exp <= 3) {
+            fee = 250;
+        } else if (exp <= 5) {
+            fee = 100;
+        } else if (exp <= 9) {
+            fee = 50;
+        }
+        return fee;
+    }
+
+    String getEmailDomain(String email) {
+        String[] splitedEmail = email.split("@");
+        if (splitedEmail.length == 2) {
+            return splitedEmail[1];
+        }
+        throw new DomainEmailInvalidException();
     }
 
 }
