@@ -44,7 +44,7 @@ class PriceCalculator {
         int netPrice = 0;
         for (Map.Entry<String, Item> entry : basket.getItems().entrySet()) {
             Item sth = entry.getValue();
-            netPrice += sth.getBook().getPrice() * sth.getQuantity() * 100;
+            netPrice += sth.getPrice() * 100;
         }
         // Logic
         return netPrice;
@@ -79,6 +79,10 @@ class Item {
         this.quantity = 1;
     }
 
+    public int getPrice() {
+        return book.getPrice() * this.quantity;
+    }
+
     public Book getBook() {
         return book;
     }
@@ -95,12 +99,12 @@ class Item {
 //        this.quantity = quantity;
 //    }
 
-    public Item increase() {
+    public Item increaseQty() {
         this.quantity++;
         return this;
     }
 
-    public Item decrease() {
+    public Item decreaseQty() {
         if (this.quantity != 0) {
             this.quantity--;
         }
@@ -125,7 +129,7 @@ class Basket {
     public void addBook(Book book) {
         Item item = items.get(book.getBookName());
         if (item != null) {
-            item.increase();
+            item.increaseQty();
         } else {
             items.put(book.getBookName(), new Item(book));
         }

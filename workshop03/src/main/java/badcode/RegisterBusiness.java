@@ -1,6 +1,5 @@
 package badcode;
 
-
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +12,8 @@ public class RegisterBusiness {
         if (speaker.getFirstName() != null && !speaker.getFirstName().trim().equals("")) {
             if (speaker.getLastName() != null && !speaker.getLastName().trim().equals("")) {
                 if (speaker.getEmail() != null && !speaker.getEmail().trim().equals("")) {
-                    String emailDomain = speaker.getEmail().split("@")[1];
+                    // TODO :: test ArrayIndexOutOfBound
+                    String emailDomain = speaker.getEmail().split("@")[1]; // ArrayIndexOutOfBound
                     if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
                         int exp = speaker.getExp();
                         if (exp <= 1) {
