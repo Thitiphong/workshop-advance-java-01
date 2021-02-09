@@ -7,6 +7,21 @@ public class RegisterBusiness {
 
     public Integer register(SpeakerRepository repository, Speaker speaker) {
         Integer speakerId;
+        validate(speaker);
+
+        int exp = speaker.getExp();
+        speaker.setRegistrationFee(getRegistrationFee(exp));
+        try {
+            speakerId = repository.saveSpeaker(speaker);
+        } catch (Exception exception) {
+            throw new SaveSpeakerException("Can't save a speaker.");
+        }
+
+
+        return speakerId;
+    }
+
+    private void validate(Speaker speaker) {
         String[] domains = {"gmail.com", "live.com"};
 
         if (!isNotEmpty(speaker.getFirstName())) {
@@ -19,20 +34,9 @@ public class RegisterBusiness {
             throw new ArgumentNullException("Email is required.");
         }
         String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
-        if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
-            int exp = speaker.getExp();
-            speaker.setRegistrationFee(getRegistrationFee(exp));
-            try {
-                speakerId = repository.saveSpeaker(speaker);
-            } catch (Exception exception) {
-                throw new SaveSpeakerException("Can't save a speaker.");
-            }
-        } else {
+        if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() != 1) {
             throw new SpeakerDoesntMeetRequirementsException("Speaker doesn't meet our standard rules.");
         }
-
-
-        return speakerId;
     }
 
     private boolean isNotEmpty(String input) {
