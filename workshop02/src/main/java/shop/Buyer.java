@@ -42,8 +42,8 @@ class PriceCalculator {
 
     public static int get(Basket basket) {
         int netPrice = 0;
-        for (Map.Entry<String, Order> entry : basket.getOrders().entrySet()) {
-            Order sth = entry.getValue();
+        for (Map.Entry<String, Item> entry : basket.getItems().entrySet()) {
+            Item sth = entry.getValue();
             netPrice += sth.getBook().getPrice() * sth.getQuantity() * 100;
         }
         // Logic
@@ -56,7 +56,7 @@ class DiscountCalculator {
     public static int get(Basket basket, int netPrice) {
         // Logic
         int discount = 0;
-        Map<String, Order> books = basket.getOrders();
+        Map<String, Item> books = basket.getItems();
         if (books.size() == 2) {
             discount = netPrice - (netPrice * 5 / 100);
         }
@@ -70,11 +70,11 @@ class DiscountCalculator {
     }
 }
 
-class Order {
+class Item {
     private Book book;
     private int quantity;
 
-    public Order(Book book) {
+    public Item(Book book) {
         this.book = book;
         this.quantity = 1;
     }
@@ -95,12 +95,12 @@ class Order {
 //        this.quantity = quantity;
 //    }
 
-    public Order increase() {
+    public Item increase() {
         this.quantity++;
         return this;
     }
 
-    public Order decrease() {
+    public Item decrease() {
         if (this.quantity != 0) {
             this.quantity--;
         }
@@ -109,25 +109,25 @@ class Order {
 }
 
 class Basket {
-    Map<String, Order> orders = new HashMap<>();
+    Map<String, Item> items = new HashMap<>();
 
     private int netPrice;
     private int discountPrice;
 
-    public Map<String, Order> getOrders() {
-        return orders;
+    public Map<String, Item> getItems() {
+        return items;
     }
 
-    public void setOrders(Map<String, Order> orders) {
-        this.orders = orders;
+    public void setItems(Map<String, Item> items) {
+        this.items = items;
     }
 
     public void addBook(Book book) {
-        Order order = orders.get(book.getBookName());
-        if (order != null) {
-            order.increase();
+        Item item = items.get(book.getBookName());
+        if (item != null) {
+            item.increase();
         } else {
-            orders.put(book.getBookName(), new Order(book));
+            items.put(book.getBookName(), new Item(book));
         }
     }
 

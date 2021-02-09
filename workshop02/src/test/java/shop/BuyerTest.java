@@ -119,7 +119,7 @@ public class BuyerTest {
         basket.addBook(book2);
 
         // Check size of book in basket
-        assertEquals(1, basket.getOrders().size());
-        assertEquals(2, basket.getOrders().get(book1.getBookName()).getQuantity()); // Issue :: Quantity of book in basket
+        assertEquals(1, basket.getItems().size());
+        assertEquals(2, basket.getItems().get(book1.getBookName()).getQuantity()); // Issue :: Quantity of book in basket
     }
 }
