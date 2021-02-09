@@ -59,6 +59,24 @@ public class RegisterBusinessTest {
     }
 
     @Test
+    public void register_with_no_domain_email_should_throw_ArgumentNullException() {
+        // Arrange
+        RegisterBusiness registerBusiness = new RegisterBusiness();
+        Speaker newSpeaker = new Speaker();
+        newSpeaker.setFirstName("Demo");
+        newSpeaker.setLastName("Demo last");
+        newSpeaker.setEmail("demo");
+
+        // Act & Assert
+        Exception exception = assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+            registerBusiness.register(null, newSpeaker);
+        });
+
+        // Assert
+//        assertEquals("Email is required.", exception.getMessage());
+    }
+
+    @Test
     public void register_with_invalid_domain_of_email_should_throw_SpeakerDoesntMeetRequirementsException() {
         // Arrange
         RegisterBusiness registerBusiness = new RegisterBusiness();
