@@ -6,18 +6,21 @@ import java.util.List;
 public class RegisterBusiness {
 
     public Integer register(SpeakerRepository repository, Speaker speaker) {
-        Integer speakerId;
         validate(speaker);
 
         int exp = speaker.getExp();
         speaker.setRegistrationFee(getRegistrationFee(exp));
+
+        return save(repository, speaker);
+    }
+
+    private Integer save(SpeakerRepository repository, Speaker speaker) {
+        Integer speakerId;
         try {
             speakerId = repository.saveSpeaker(speaker);
         } catch (Exception exception) {
             throw new SaveSpeakerException("Can't save a speaker.");
         }
-
-
         return speakerId;
     }
 
