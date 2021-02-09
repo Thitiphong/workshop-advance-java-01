@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BuyerTest {
 
     @Test
-    @DisplayName("buy 3 books")
+    @DisplayName("buy 3 different books discount 10%")
     public void buy_3_books() {
         // 1. Create basket
         Basket basket = new Basket();
@@ -46,14 +46,14 @@ public class BuyerTest {
         Checkout checkout = new Checkout();
         checkout.process(basket);
 
-        // Check netPrice = 32, discountPrice 32 - 10%
+        // Check netPrice = 32, discountPrice 32 - 20%
         assertEquals(3200, basket.getNetPrice()); // 32.00
         assertEquals(2560, basket.getDiscountPrice()); // 25.60
     }
 
 
     @Test
-    @DisplayName("buy 1 books")
+    @DisplayName("buy 1 book no discount")
     public void buy_1_books() {
         // 1. Create basket
         Basket basket = new Basket();
@@ -70,7 +70,7 @@ public class BuyerTest {
     }
 
     @Test
-    @DisplayName("buy 2 books")
+    @DisplayName("buy 2 different books discount 5%")
     public void buy_2_books() {
         // 1. Create basket
         Basket basket = new Basket();
