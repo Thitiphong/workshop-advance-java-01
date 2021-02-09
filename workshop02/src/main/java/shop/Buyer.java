@@ -63,6 +63,9 @@ class DiscountCalculator {
         if (books.size() == 3) {
             discount = netPrice - (netPrice * 10 / 100);
         }
+        if (books.size() == 4) {
+            discount = netPrice - (netPrice * 20 / 100);
+        }
         return discount;
     }
 }

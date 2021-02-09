@@ -28,6 +28,29 @@ public class BuyerTest {
         assertEquals(2160, basket.getDiscountPrice()); // 21.60
     }
 
+    @Test
+    @DisplayName("buy 4 different books discount 20%")
+    public void buy_4_different_books() {
+        // 1. Create basket
+        Basket basket = new Basket();
+        // 2. Add book to basket
+        Book book1 = new Book("Potter 1", 8);
+        Book book2 = new Book("Potter 2", 8);
+        Book book3 = new BookBuilder().chooseBook("Potter 3").build();
+        Book book4 = new BookBuilder().chooseBook("Potter 4").build();
+        basket.addBook(book1);
+        basket.addBook(book2);
+        basket.addBook(book3);
+        basket.addBook(book4);
+        // 3. Checkout
+        Checkout checkout = new Checkout();
+        checkout.process(basket);
+
+        // Check netPrice = 32, discountPrice 32 - 10%
+        assertEquals(3200, basket.getNetPrice()); // 32.00
+        assertEquals(2560, basket.getDiscountPrice()); // 25.60
+    }
+
 
     @Test
     @DisplayName("buy 1 books")
