@@ -9,9 +9,9 @@ public class RegisterBusiness {
         Integer speakerId;
         String[] domains = {"gmail.com", "live.com"};
 
-        if (speaker.getFirstName() != null && !speaker.getFirstName().trim().equals("")) {
-            if (speaker.getLastName() != null && !speaker.getLastName().trim().equals("")) {
-                if (speaker.getEmail() != null && !speaker.getEmail().trim().equals("")) {
+        if (isNotEmpty(speaker.getFirstName())) {
+            if (isNotEmpty(speaker.getLastName())) {
+                if (isNotEmpty(speaker.getEmail())) {
                     String emailDomain = getEmailDomain(speaker.getEmail()); // ArrayIndexOutOfBound
                     if (Arrays.stream(domains).filter(it -> it.equals(emailDomain)).count() == 1) {
                         int exp = speaker.getExp();
@@ -37,7 +37,11 @@ public class RegisterBusiness {
         return speakerId;
     }
 
-     int getRegistrationFee(int exp) {
+    private boolean isNotEmpty(String input) {
+        return input != null && !input.trim().equals("");
+    }
+
+    int getRegistrationFee(int exp) {
         int fee = 0;
         if (exp <= 1) {
             fee = 500;
