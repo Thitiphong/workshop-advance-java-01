@@ -1,7 +1,8 @@
 package shop;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Buyer {
     private String firstName;
@@ -41,8 +42,9 @@ class PriceCalculator {
 
     public static int get(Basket basket) {
         int netPrice = 0;
-        for (Book book : basket.books) {
-            netPrice += (book.getPrice()*100);
+        for (Map.Entry<String, Order> entry : basket.getOrders().entrySet()) {
+            Order sth = entry.getValue();
+            netPrice += sth.getBook().getPrice() * sth.getQuantity() * 100;
         }
         // Logic
         return netPrice;
@@ -54,32 +56,76 @@ class DiscountCalculator {
     public static int get(Basket basket, int netPrice) {
         // Logic
         int discount = 0;
-        List<Book> books = basket.getBooks();
-        if (books.size() ==2) {
-            discount = netPrice - (netPrice * 5/100);
+        Map<String, Order> books = basket.getOrders();
+        if (books.size() == 2) {
+            discount = netPrice - (netPrice * 5 / 100);
         }
-        if (books.size() ==3) {
-            discount = netPrice - (netPrice * 10/100);
+        if (books.size() == 3) {
+            discount = netPrice - (netPrice * 10 / 100);
         }
         return discount;
     }
 }
 
+class Order {
+    private Book book;
+    private int quantity;
+
+    public Order(Book book) {
+        this.book = book;
+        this.quantity = 1;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+//    public void setQuantity(int quantity) {
+//        this.quantity = quantity;
+//    }
+
+    public Order increase() {
+        this.quantity++;
+        return this;
+    }
+
+    public Order decrease() {
+        if (this.quantity != 0) {
+            this.quantity--;
+        }
+        return this;
+    }
+}
+
 class Basket {
-    public List<Book> getBooks() {
-        return books;
-    }
+    Map<String, Order> orders = new HashMap<>();
 
-    public void setBooks(List<Book> books) {
-        this.books = books;
-    }
-
-    List<Book> books = new ArrayList<>();
     private int netPrice;
     private int discountPrice;
 
+    public Map<String, Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Map<String, Order> orders) {
+        this.orders = orders;
+    }
+
     public void addBook(Book book) {
-        books.add(book);
+        Order order = orders.get(book.getBookName());
+        if (order != null) {
+            order.increase();
+        } else {
+            orders.put(book.getBookName(), new Order(book));
+        }
     }
 
     public int getNetPrice() {
@@ -107,7 +153,7 @@ class BookBuilder {
     }
 
     public BookBuilder chooseBook(String name) {
-        book.setName(name);
+        book.setBookName(name);
         book.setPrice(8);
         return this;
     }
@@ -118,23 +164,23 @@ class BookBuilder {
 }
 
 class Book {
-    private String name;
+    private String bookName;
     private int price;
 
     public Book() {
     }
 
-    public Book(String name, int price) {
-        this.name = name;
+    public Book(String bookName, int price) {
+        this.bookName = bookName;
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
     public int getPrice() {

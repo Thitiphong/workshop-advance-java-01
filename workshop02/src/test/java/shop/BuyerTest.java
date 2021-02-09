@@ -64,4 +64,39 @@ public class BuyerTest {
         assertEquals(1600, basket.getNetPrice()); // 16.00
         assertEquals(1520, basket.getDiscountPrice()); // 1520
     }
+
+    @Test
+    @DisplayName("ซื้อหนังสือ Potter 1 จำนวน 2 เล่ม จะไม่ได้รับส่วนลด")
+    public void buy_2_books_same_book() {
+        // 1. Create basket
+        Basket basket = new Basket();
+        // 2. Add book to basket
+        Book book1 = new Book("Potter 1", 8);
+        Book book2 = new Book("Potter 1", 8);
+        basket.addBook(book1);
+        basket.addBook(book2);
+        // 3. Checkout
+        Checkout checkout = new Checkout();
+        checkout.process(basket);
+
+        // Check netPrice = 16, discountPrice 5%
+        assertEquals(1600, basket.getNetPrice()); // 16.00
+        assertEquals(0, basket.getDiscountPrice()); // 0
+    }
+
+
+    @Test
+    public void buy_2_books_same_book_size_of_book_is_1() {
+        // 1. Create basket
+        Basket basket = new Basket();
+        // 2. Add book to basket
+        Book book1 = new Book("Potter 1", 8);
+        Book book2 = new Book("Potter 1", 8);
+        basket.addBook(book1);
+        basket.addBook(book2);
+
+        // Check size of book in basket
+        assertEquals(1, basket.getOrders().size());
+        assertEquals(2, basket.getOrders().get(book1.getBookName()).getQuantity()); // Issue :: Quantity of book in basket
+    }
 }
